@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>url shortener app</title>
+  <title>Image search app</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -10,7 +10,7 @@
   <div style="margin: auto 250px;">
     <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
-    <a class="navbar-brand" href="/">url shortener</a>
+    <a class="navbar-brand" href="/">Image search</a>
     <ul class="nav navbar-nav">
       <li class="active">
         <a href="/">Home</a>
@@ -25,58 +25,25 @@
   </div>
 </nav>
     <div class="jumbotron"  style="padding:40px;">
-      <h2>url shortener</h2>
-      <p>This is a url shortener.</p>
+      <h2>Image search app</h2>
+      <p>This is an Image search.</p>
       
       <div class="alert alert-danger" role="alert" style="display: <%= display %>"><%= error %></div>
       
-      <form action="/new" method="POST">
-      <label for="original_url">Enter a url: </label>
-      <input type="text" placeholder="url" name="original_url">
-      <button type="submit">Submit</button>
-    </form>
-    
-    <form action="/:short_url" method="GET">
-      <label for="short_url">Enter a short url: </label>
-      <input type="text" placeholder="shortened url" name="short_url">
+    <form action="/:search" method="GET">
+      <label for="search">Enter a search term: </label>
+      <input type="text" placeholder="search" name="search">
       <button type="submit">Submit</button>
     </form>
     
     <div style="font-size: 75%;">
-    User Story: I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.<br>
-    User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.<br>
-    User Story: When I visit that shortened URL, it will redirect me to my original link.<br>
+    User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.<br>
+    User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.<br>
+    User Story: I can get a list of the most recently submitted search strings.<br>
     </div> 
-    
-    
     
     </div>
      
- 
-      <table class="urls">
-        <tr>
-          <th>Full url</th>
-          <th>Shortened url</th>
-        </tr>
-        <% for(var i=0; i<urls.length; i++) {%>
-          <tr class="url">
-            <td><%= urls[i].original_url %></td> 
-            <td><%= urls[i].short_url %></td>
-          </tr>
-        <% } %>
-      </table>
-
-<!--
-     <ul class="urls">
-        <% for(var i=0; i<urls.length; i++) {%>
-          <li class="url">
-            <span><%= urls[i].original_url %></span>: "<span><%= urls[i].short_url %></span>"
-          </li>
-        <% } %>
-      </ul>
-      -->
-      
-      
   </div>
   <footer class="footer">
           <div class="container">
@@ -84,6 +51,6 @@
         <p class="text-muted">&copy; 2017 <a href="https://github.com/DrWilliamsSteven" target="_blank">Steven Williams</a> </p>
               </div>
       </footer>
-  <script src="main.js"></script>
+
 </body>
 </html>

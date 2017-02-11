@@ -1,13 +1,13 @@
 #Under construction..
 
-This is a url shortener app.
+This is an image search app.
 
-Allows a url to be submitted, and added to the database and a shortened url returned on the page.
+Allows a search term to be submitted, and added to the database of recent searches. Search results are returned as JSON.
 
 Project for FreeCodeCamp.
 
-https://gentle-brush-urlshortener-v2.herokuapp.com/
+https://
 
-* User Story:  I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
-* User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
-* User Story: When I visit that shortened URL, it will redirect me to my original link.
+* User Story: I can get the image URLs, alt text and page urls for a set of images relating to a given search string.
+* User Story: I can paginate through the responses by adding a ?offset=2 parameter to the URL.
+* User Story: I can get a list of the most recently submitted search strings.
