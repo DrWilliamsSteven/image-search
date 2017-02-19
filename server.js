@@ -1,15 +1,17 @@
 var express = require("express");
 var bodyParser = require('body-parser');
-//var $ = require('jquery');
 var request = require('request');
 
 var app = express();
 
+var dotenv = require('dotenv');
+dotenv.config();
 var uri = process.env.MONGODB_URI;
 var PORT = process.env.PORT || 8080;
 
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -28,7 +30,7 @@ app.set('views', './views');
 
 var db;
 
-/*
+
 MongoClient.connect(uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
@@ -36,7 +38,6 @@ MongoClient.connect(uri, (err, database) => {
     console.log('listening on port: ' + PORT);
   });
 });
-*/
 
 
 app.get('/', (req, res) => {
@@ -69,15 +70,23 @@ app.get('/:search', function (req, res) {
 
     if (!error && response.statusCode == 200) {
       var result = JSON.parse(body);
-      console.log(body);
-    }
-    res.writeHead(200, {
-      "Content-Type": "application/json"
-    });
-    res.end(JSON.stringify(result.items, null, 2));
+      //console.log(body);
+      res.writeHead(200, {
+        "Content-Type": "application/json"
+      });
+      res.end(JSON.stringify(result.items, null, 2));
 
+      var terms_to_save = {
+        search_term: search_term,
+        when: new Date().toString()
+      }
+
+      db.collection('recent_image_search').save(terms_to_save, (err, result) => {
+        if (err) return console.log(err);
+        console.log('saved to database');
+
+      });
+    }
   });
 
 });
-
-app.listen(PORT);
