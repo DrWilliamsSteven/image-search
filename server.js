@@ -1,10 +1,9 @@
-// following the fantastic tutorial by:
-//https://zellwk.com/blog/crud-express-mongodb/
 
 var express = require("express");
 var bodyParser = require('body-parser');
+//var $ = require('jquery');
+var request = require('request');
 
-// for app
 var app = express();
 
 var uri = process.env.MONGODB_URI;
@@ -25,10 +24,10 @@ app.use(bodyParser.urlencoded({extended: true}));
   
   app.set('view engine', 'ejs');
   app.set('views', './views');
-  
-// connect to mongoDB
+
 var db;
 
+/*
 MongoClient.connect(uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
@@ -36,33 +35,34 @@ MongoClient.connect(uri, (err, database) => {
     console.log('listening on port: ' + PORT);
   });
 });
+*/
 
-// connect to google search, send req.search as term.
-// add req.search to database
-// response: google search response body..
-// add pagination option
 
- app.get('/:short_url', function(req, res) {
-    console.log("In comes a " + req.method + " to " + req.url);
-    console.log(req.query);
-    var entered_url = req.query.short_url;
-     db.collection('shorturl').find({short_url: entered_url}).each((err, result) => {
-        if (err) return console.log(err);
-        if (result) {
-        
-        res.writeHead(302, {'Location': result.original_url});
-        res.end();
-        return false; 
-          
-        }
-    });
-});
- 
-// get request for recent searches from db 
- 
 app.get('/', (req, res) => {
-  
     res.render('index.ejs');
-    
 });
 
+
+app.get('/:search', function(req, res) {
+    console.log("In comes a " + req.method + " to " + req.url);
+    console.log( "Request: "+ req.url.slice(1) ); 
+    
+    var search_term = req.url.slice(1);
+
+    var url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyCd8PNPlNZ62URqPKs9aMES0l9PcBw0GLA&cx=002994538534406751618:ficzbfvypwm&searchType=image&q="+search_term+"&start=11"; //&fields=kind,items(title, link, snippet)
+    var urlencoded = encodeURI(url);
+    
+    request(urlencoded, function (error, response, body) {
+      
+      if (!error && response.statusCode == 200) {
+        var result = JSON.parse(body);
+        console.log(body);
+      }
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result.items, null, 2));
+      
+  });
+
+});
+
+ app.listen(PORT);
