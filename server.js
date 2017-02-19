@@ -45,11 +45,11 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/:search', function (req, res) {
+app.get('/imagesearch/:search', function (req, res) {
   console.log("In comes a " + req.method + " to " + req.url);
-  console.log("Request: " + req.url.slice(1));
+  console.log("Request: " + req.url.slice(13));
 
-  var search_term = req.url.slice(1);
+  var search_term = req.url.slice(13);
   var startNum = 1;
 
   var re = /\?offset\=/;
@@ -79,7 +79,7 @@ app.get('/:search', function (req, res) {
       var terms_to_save = {
         search_term: search_term,
         when: new Date().toString()
-      }
+      };
 
       db.collection('recent_image_search').save(terms_to_save, (err, result) => {
         if (err) return console.log(err);
@@ -88,5 +88,28 @@ app.get('/:search', function (req, res) {
       });
     }
   });
+
+});
+
+
+app.get('/latest', function (req, res) {
+  console.log("In comes a " + req.method + " to " + req.url);
+
+  var myCursor = db.collection('recent_image_search').find({}, {
+    _id: 0
+  }).sort({
+    when: -1
+  }).limit(10).toArray(function (err, doc) {
+    if (err) return console.log(err);
+    //called once for each doc returned
+    console.log(doc)
+    if (doc) {
+      res.json(doc);
+      return false;
+    }
+  });
+
+
+
 
 });
