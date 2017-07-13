@@ -97,7 +97,8 @@ app.get('/latest', function (req, res) {
     //called once for each doc returned
     console.log(doc)
     if (doc) {
-      res.json(doc);
+      //res.json(doc);
+      res.end(JSON.stringify(doc, null, 2));
       return false;
     }
   });
