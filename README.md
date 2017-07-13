@@ -1,4 +1,4 @@
-#Image search abstraction layer
+# Image search abstraction layer
 
 This is an image search app.
 
