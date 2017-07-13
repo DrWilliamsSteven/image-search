@@ -12,7 +12,6 @@ var PORT = process.env.PORT || 8080;
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -29,8 +28,6 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 var db;
-
-
 MongoClient.connect(uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
@@ -39,11 +36,9 @@ MongoClient.connect(uri, (err, database) => {
   });
 });
 
-
 app.get('/', (req, res) => {
   res.render('index.ejs');
 });
-
 
 app.get('/imagesearch/:search', function (req, res) {
   console.log("In comes a " + req.method + " to " + req.url);
@@ -88,9 +83,7 @@ app.get('/imagesearch/:search', function (req, res) {
       });
     }
   });
-
 });
-
 
 app.get('/latest', function (req, res) {
   console.log("In comes a " + req.method + " to " + req.url);
@@ -108,8 +101,4 @@ app.get('/latest', function (req, res) {
       return false;
     }
   });
-
-
-
-
 });
